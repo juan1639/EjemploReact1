@@ -1,16 +1,15 @@
 import { useState } from 'react'
-
-/* curl -H "Authorization: qAmiTYELg6N6SzyZXYtTDlNiANi2Ff8lrgdp7Qh0Lb8t4gmHvbwRBVAC" \
-  "https://api.pexels.com/v1/search?query=people" */
+import { MostrarFoto } from './components/mostrarfoto.jsx'
+import { url, apikey, urlhome, pexelsLogoWhite } from './constants/constants.js'
 
 function App() {
+
   const [busqueda, setBusqueda] = useState('')
   const [mostrar, setMostrar] = useState(false)
   const [imagen, setImagen] = useState({})
 
-  const actualizarInput = (e) => {
-
-    setBusqueda(e.target.value)
+  const actualizarInput = ({target}) => {
+    setBusqueda(target.value)
   }
 
   const handleSubmit = (e) => {
@@ -20,8 +19,8 @@ function App() {
     if (busqueda === '') return
     
     fetch(
-      "https://api.pexels.com/v1/search?query=people", {
-        headers: {'Authorization': 'qAmiTYELg6N6SzyZXYtTDlNiANi2Ff8lrgdp7Qh0Lb8t4gmHvbwRBVAC'}
+      `${url}${busqueda}`, {
+        headers: {'Authorization': {apikey}}
       }
       )
       .then(res => res.json())
@@ -30,14 +29,15 @@ function App() {
         setImagen(data)
         setMostrar(true)
       })
-
-    // setMostrar(true)
-    // setImagen(data)
   }
 
   return (
     <>
       <h1>Galeria de Imagenes</h1>
+
+      <a href={urlhome} target='_blank'>
+        <img src={pexelsLogoWhite} />
+      </a>
 
       <form 
         className='formulario'
@@ -45,7 +45,7 @@ function App() {
       >
         <input 
           type='text'
-          placeholder='Introduce busqueda'
+          placeholder='Buscar imagenes...'
           onChange={actualizarInput}
           value = {busqueda}
         />
@@ -53,7 +53,7 @@ function App() {
         <button>Buscar</button>
       </form>
 
-      {mostrar && <img alt='imagen gato' src={imagen.photos[5].src.small}/>}
+      <MostrarFoto mostrar={mostrar} imagen={imagen}/>
     </>
   )
 }
