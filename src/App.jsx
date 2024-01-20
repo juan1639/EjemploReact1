@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { MostrarFoto } from './components/mostrarfoto.jsx'
 import { url, apikey, urlhome, pexelsLogoWhite } from './constants/constants.js'
+import './App.css'
 
 function App() {
 
@@ -35,25 +36,40 @@ function App() {
     <>
       <h1>Galeria de Imagenes</h1>
 
-      <a href={urlhome} target='_blank'>
-        <img src={pexelsLogoWhite} />
-      </a>
-
       <form 
         className='formulario'
         onSubmit={handleSubmit}
       >
-        <input 
-          type='text'
-          placeholder='Buscar imagenes...'
-          onChange={actualizarInput}
-          value = {busqueda}
-        />
+        <a href={urlhome} target='_blank'>
+          <img src={pexelsLogoWhite} />
+        </a>
 
-        <button>Buscar</button>
+        <section className='input-button'>
+          <input 
+            type='text'
+            placeholder='Buscar imagenes...'
+            onChange={actualizarInput}
+            value = {busqueda}
+          />
+
+          <button>Buscar</button>
+        </section>
+
       </form>
 
-      <MostrarFoto mostrar={mostrar} imagen={imagen}/>
+      <section className='seccion-fotos'>
+        {
+          mostrar
+          ? imagen.photos.map((foto, index) => {
+          
+            return (
+              <MostrarFoto alt={foto.alt} key={foto.id} src={foto.src.large} fotografo={foto.photographer}/>
+            )
+          })
+          : <p>...</p>
+        }
+      </section>
+
     </>
   )
 }

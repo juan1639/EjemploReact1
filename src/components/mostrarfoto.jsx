@@ -1,16 +1,13 @@
+import './mostrarfoto.css'
 
-export const MostrarFoto = ({mostrar, imagen}) => {
+export const MostrarFoto = ({alt, src, fotografo}) => {
 
     return (
         <>
-            {
-                mostrar
-                ? imagen.photos.map(foto => {
-                
-                    return <img alt={foto.alt} key={foto.alt} src={foto.src.medium}/>
-                })
-                : <p>...</p>
-            }
+            <figure className='contenedor-mostrar-foto'>
+                <img alt={alt} src={src}/>
+                <figcaption>Photographer: {fotografo}</figcaption>
+            </figure>
         </>
     )
 }
